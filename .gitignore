@@ -45,3 +45,11 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+/VendingMachine/bin
+/VendingMachine/obj/Debug
+/VendingMachineCreditCards/bin/Debug
+/VendingMachineCreditCards/obj/Debug
+/VendingMachineRepository/bin/Debug
+/VendingMachineRepository/obj/Debug
+/VendingMachineTests/bin/Debug
+/VendingMachineTests/obj/Debug

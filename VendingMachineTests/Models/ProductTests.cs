@@ -12,7 +12,7 @@ namespace VendingMachineTests
             bool exceptionThrown = false;
             try
             {
-                var product = new Product(null, .01M, "invalid price");
+                var product = new Product(null, 1, .01M, "invalid price");
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -27,7 +27,7 @@ namespace VendingMachineTests
         public void ProductConstructor()
         {
             string name = "new product";
-            var product = new Product(null, 1, name);
+            var product = new Product(null, 1, 1, name);
             Assert.Null(product.Id);
             Assert.Equal(1, product.Price);
             Assert.Equal(name, product.Name);

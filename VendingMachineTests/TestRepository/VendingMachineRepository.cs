@@ -27,23 +27,32 @@ namespace VendingMachineTests.TestRepository
             get { return _products; }
         }
 
-        public bool DecreaseProductQuantity(IProduct product)
+        public bool ProductExists(IProduct product)
         {
             bool bFound = false;
-            foreach(IProduct inventoryProduct in _products)
+            foreach (IProduct inventoryProduct in _products)
             {
                 if (inventoryProduct.Id == product.Id && inventoryProduct.Quantity >= product.Quantity)
                 {
-                    _products.Remove(inventoryProduct);
-                    if (inventoryProduct.Quantity > product.Quantity)
-                    {
-                        _products.Add(new Product(inventoryProduct.Id, inventoryProduct.Quantity - product.Quantity, inventoryProduct.Price, inventoryProduct.Name));
-                    }
                     bFound = true;
                     break;
                 }
             }
             return bFound;
+        }
+
+        public bool DecreaseProductQuantity(IProduct product)
+        {
+            bool bQuantitySufficient = false;
+            foreach (IProduct inventoryProduct in _products)
+            {
+                if (inventoryProduct.Id == product.Id && inventoryProduct.Quantity >= product.Quantity)
+                {
+                    _products.Add(new Product(inventoryProduct.Id, inventoryProduct.Quantity - product.Quantity, inventoryProduct.Price, inventoryProduct.Name));
+                    break;
+                }
+            }
+            return bQuantitySufficient;
         }
 
         public bool DebitFunds(decimal amount)

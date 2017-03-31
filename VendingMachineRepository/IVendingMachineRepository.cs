@@ -14,6 +14,8 @@ namespace VendingMachineRepository
         IList<IProduct> Products
         { get; }
 
+        bool ProductExists(IProduct product);
+
         bool DecreaseProductQuantity(IProduct product);
 
         bool DebitFunds(decimal amount);

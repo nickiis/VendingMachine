@@ -70,12 +70,17 @@
   <ItemGroup>
     <Compile Include="Controllers\PaymentControllerTests.cs" />
     <Compile Include="Controllers\ProductControllerTests.cs" />
+    <Compile Include="CreditCard\TestCreditCardProcessor.cs" />
     <Compile Include="Models\PaymentTests.cs" />
     <Compile Include="Models\ProductTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestRepository\VendingMachineRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\VendingMachineCreditCards\VendingMachineCreditCards.csproj">
+      <Project>{4734d5a9-431e-488a-a602-a785c061e35e}</Project>
+      <Name>VendingMachineCreditCards</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VendingMachineRepository\VendingMachineRepository.csproj">
       <Project>{3740dccd-690e-4354-a70f-549c5a28017f}</Project>
       <Name>VendingMachineRepository</Name>

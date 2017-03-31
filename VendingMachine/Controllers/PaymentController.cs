@@ -1,7 +1,6 @@
-﻿using System;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Net;
-using VendingMachine.Models;
+using VendingMachineCreditCards;
 
 namespace VendingMachineRepository.Controllers
 {
@@ -9,14 +8,16 @@ namespace VendingMachineRepository.Controllers
     public class PaymentController : ApiController
     {
         private IVendingMachineRepository _repository;
+        private ICreditCardProcessor _creditCardProcessor;
 
-        public PaymentController(IVendingMachineRepository repository)
+        public PaymentController(IVendingMachineRepository repository, ICreditCardProcessor creditCardProcessor)
         {
             _repository = repository;
+            _creditCardProcessor = creditCardProcessor;
         }
 
         [HttpPut]
-        public IHttpActionResult Credit(eMoney money)
+        public IHttpActionResult CreditCash(eMoney money)
         {
             _repository.CreditFunds(PaymentAmount.Money[money]);
 
@@ -24,7 +25,7 @@ namespace VendingMachineRepository.Controllers
         }
 
         [HttpPut]
-        public IHttpActionResult Debit(eMoney money)
+        public IHttpActionResult DebitCash(eMoney money)
         {
             if (_repository.DebitFunds(PaymentAmount.Money[money]))
             { 
@@ -34,6 +35,29 @@ namespace VendingMachineRepository.Controllers
             {
                 return Content(HttpStatusCode.NotModified, "Negative payment is not allowed");
             }
+        }
+
+        [HttpPut]
+        public IHttpActionResult CreditWithCard(string cardNumber, decimal money)
+        {
+            CreditCardResult result = _creditCardProcessor.ProcessCard(cardNumber);
+            if (!result.Success)
+            {
+                return Content(HttpStatusCode.NotModified, result.ReasonForFailure);
+            }
+            else
+            {
+                _repository.CreditFunds(money);
+                return Ok();
+            }
+        }
+
+        [HttpPut]
+        public IHttpActionResult Refund()
+        {
+            decimal amount = _repository.Payment.Amount;
+            _repository.DebitFunds(amount);
+            return Ok(amount);
         }
     }
 }
